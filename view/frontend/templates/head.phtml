@@ -1,0 +1,19 @@
+<?php
+/**
+ * Copyright © 2026 Roman Pasichnyk
+ * SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+ *
+ * consent.js and its settings (JSON: the storefront's CSP allows no inline
+ * scripts), before the trackers' own scripts (all deferred, so in order).
+ *
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Zero\Consent\ViewModel\Consent $consent
+ */
+$consent = $block->getData('consent');
+if (!$consent->isActive()) {
+    return;
+}
+?>
+<script type="application/json" id="zero-consent-settings"><?= /* @noEscape */ json_encode($consent->settings(), JSON_HEX_TAG | JSON_HEX_AMP) ?></script>
+<script src="<?= $escaper->escapeUrl($block->getViewFileUrl('Zero_Consent::js/consent.js')) ?>" defer></script>

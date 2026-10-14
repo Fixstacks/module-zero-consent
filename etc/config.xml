@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+    Copyright © 2026 Roman Pasichnyk
+    SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <zero_consent>
+            <general>
+                <ask>1</ask>
+                <gpc>1</gpc>
+                <do_not_sell>0</do_not_sell>
+                <privacy_url/>
+            </general>
+        </zero_consent>
+    </default>
+</config>

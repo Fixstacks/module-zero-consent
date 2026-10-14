@@ -1,0 +1,59 @@
+<?php
+/**
+ * Copyright © 2026 Roman Pasichnyk
+ * SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+ *
+ * The cookie consent banner. Hidden in the markup, the same for every
+ * visitor (cacheable); consent.js shows it until the visitor chooses (when the
+ * store asks), and from Cookie Settings / Do Not Sell or Share in the footer.
+ * A purpose shows only when a tracker on the store uses it, with what for.
+ *
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Zero\Consent\ViewModel\Consent $consent
+ */
+$consent = $block->getData('consent');
+if (!$consent->hasChoices()) {
+    return;
+}
+$privacyUrl = $consent->privacyUrl();
+$labels = ['analytics' => __('Analytics'), 'marketing' => __('Marketing')];
+?>
+<section id="zero-consent" class="zero-consent fixed inset-x-0 bottom-0 z-50 p-4 sm:p-6" hidden
+         role="region" aria-label="<?= $escaper->escapeHtmlAttr(__('Cookie consent')) ?>" data-zero-consent>
+    <div class="mx-auto max-w-3xl border border-base-300 bg-base-100 text-base-content shadow-xl p-5 flex flex-col gap-4">
+        <div class="flex flex-col gap-1">
+            <h2 class="text-base font-semibold"><?= $escaper->escapeHtml(__('Cookies on this site')) ?></h2>
+            <p class="text-sm">
+                <?= $escaper->escapeHtml(__('We use cookies to understand how the store is used and to show relevant ads. Necessary cookies for the cart and checkout are always on.')) ?>
+                <?php if ($privacyUrl): ?>
+                    <a href="<?= $escaper->escapeUrl($privacyUrl) ?>" class="link"><?= $escaper->escapeHtml(__('Privacy Policy')) ?></a>
+                <?php endif; ?>
+            </p>
+            <p class="text-sm" data-zero-consent-gpc hidden>
+                <?= $escaper->escapeHtml(__('Your browser sends a Global Privacy Control signal: marketing cookies stay off unless you turn them on here.')) ?>
+            </p>
+        </div>
+        <fieldset class="flex flex-col gap-2" data-zero-consent-choices hidden>
+            <legend class="sr-only"><?= $escaper->escapeHtml(__('Choose cookies')) ?></legend>
+            <label class="flex items-start gap-3 text-sm">
+                <input type="checkbox" class="checkbox checkbox-sm mt-0.5" checked disabled>
+                <span><strong><?= $escaper->escapeHtml(__('Necessary')) ?></strong> — <?= $escaper->escapeHtml(__('cart, checkout, security. Always on.')) ?></span>
+            </label>
+            <?php foreach ($consent->purposes() as $purpose => $descriptions): ?>
+                <label class="flex items-start gap-3 text-sm">
+                    <input type="checkbox" class="checkbox checkbox-sm mt-0.5" name="<?= $escaper->escapeHtmlAttr($purpose) ?>"
+                           data-zero-consent-option="<?= $escaper->escapeHtmlAttr($purpose) ?>">
+                    <span><strong><?= $escaper->escapeHtml($labels[$purpose]) ?></strong> — <?= $escaper->escapeHtml(implode(' ', $descriptions)) ?></span>
+                </label>
+            <?php endforeach; ?>
+        </fieldset>
+        <div class="flex flex-wrap gap-2 justify-end">
+            <button type="button" class="btn btn-ghost btn-sm" data-zero-consent-action="choose"><?= $escaper->escapeHtml(__('Choose')) ?></button>
+            <button type="button" class="btn btn-sm" data-zero-consent-action="save" hidden><?= $escaper->escapeHtml(__('Save choices')) ?></button>
+            <?php /* Reject and Accept look the same: EU regulators (EDPB cookie banner taskforce) treat a weaker Reject as nudging. */ ?>
+            <button type="button" class="btn btn-neutral btn-sm" data-zero-consent-action="reject"><?= $escaper->escapeHtml(__('Reject all')) ?></button>
+            <button type="button" class="btn btn-neutral btn-sm" data-zero-consent-action="accept"><?= $escaper->escapeHtml(__('Accept all')) ?></button>
+        </div>
+    </div>
+</section>

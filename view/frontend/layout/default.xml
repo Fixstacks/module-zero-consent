@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+    Copyright © 2026 Roman Pasichnyk
+    SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <body>
+        <referenceBlock name="head.additional">
+            <!-- First: trackers' scripts read window.zeroConsent when they start. -->
+            <block name="zero.consent.head" template="Zero_Consent::head.phtml" before="-">
+                <arguments>
+                    <argument name="consent" xsi:type="object">Zero\Consent\ViewModel\Consent</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+        <referenceContainer name="before.body.end">
+            <block name="zero.consent.banner" template="Zero_Consent::banner.phtml">
+                <arguments>
+                    <argument name="consent" xsi:type="object">Zero\Consent\ViewModel\Consent</argument>
+                </arguments>
+            </block>
+        </referenceContainer>
+        <referenceBlock name="footer_links">
+            <block name="zero-cookie-settings-link" template="Zero_Consent::footer-links.phtml">
+                <arguments>
+                    <argument name="consent" xsi:type="object">Zero\Consent\ViewModel\Consent</argument>
+                </arguments>
+            </block>
+        </referenceBlock>
+    </body>
+</page>

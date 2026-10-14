@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!--
+    Copyright © 2026 Roman Pasichnyk
+    SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="zero_consent" translate="label" type="text" sortOrder="29" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Cookie Consent</label>
+            <tab>zero</tab>
+            <resource>Zero_Consent::config</resource>
+            <group id="general" translate="label comment" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Cookie Consent</label>
+                <comment>The visitor's choice of analytics and marketing cookies, for every tracker on the storefront (Google Analytics, …). Shown only while a tracker is on. Necessary cookies (cart, checkout, sign-in) need no consent.</comment>
+                <field id="ask" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Ask for Consent</label>
+                    <comment>Yes (EU, UK: GDPR, ePrivacy): analytics and marketing are off until the visitor chooses in the banner (Accept, Reject, Choose). No (e.g. a US-only store): on from the start; the visitor can still turn them off in Cookie Settings or with Do Not Sell or Share.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="gpc" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Honor Global Privacy Control</label>
+                    <comment>A browser sending the GPC signal (Brave, DuckDuckGo, Firefox with the setting, privacy extensions) opts out of marketing cookies: required in California (CCPA/CPRA) and several other US states. A visitor can still opt in afterwards in Cookie Settings.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="do_not_sell" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show "Do Not Sell or Share My Personal Information"</label>
+                    <comment>A footer link (CCPA/CPRA) that opens the cookie choices. For stores selling to California.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="privacy_url" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Privacy Policy URL</label>
+                    <comment>Linked from the banner, e.g. /privacy-policy-cookie-restriction-mode. Empty: no link.</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

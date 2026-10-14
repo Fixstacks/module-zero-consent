@@ -1,0 +1,32 @@
+<?php
+/**
+ * Copyright © 2026 Roman Pasichnyk
+ * SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+ *
+ * Footer links Cookie Settings and, when on, Do Not Sell or Share (CCPA/CPRA);
+ * both open the banner. `bare`: the links alone, for a theme's own footer.
+ *
+ * @var \Magento\Framework\View\Element\Template $block
+ * @var \Magento\Framework\Escaper $escaper
+ * @var \Zero\Consent\ViewModel\Consent $consent
+ */
+$consent = $block->getData('consent');
+if (!$consent->hasChoices()) {
+    return;
+}
+$links = [__('Cookie Settings')];
+if ($consent->showsDoNotSell()) {
+    $links[] = __('Do Not Sell or Share My Personal Information');
+}
+$bare = (bool) $block->getData('bare');
+?>
+<?php foreach ($links as $label): ?>
+    <?php if ($bare): ?>
+        <a href="#zero-consent" data-zero-consent-open><?= $escaper->escapeHtml($label) ?></a>
+    <?php else: ?>
+        <li class="list-none">
+            <a href="#zero-consent" data-zero-consent-open
+               class="text-primary-content hover:text-base-100 hover:underline underline-offset-2"><?= $escaper->escapeHtml($label) ?></a>
+        </li>
+    <?php endif; ?>
+<?php endforeach; ?>
