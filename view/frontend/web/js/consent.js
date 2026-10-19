@@ -71,6 +71,8 @@
         if (banner) {
             banner.hidden = true;
         }
+        // The page's room for the banner (tailwind.css) goes with it.
+        document.documentElement.classList.remove(ASK);
         document.dispatchEvent(new CustomEvent('zero:consent', { detail: get() }));
     }
 

@@ -16,4 +16,24 @@
     :root.zero-consent-ask .zero-consent {
         display: block;
     }
+
+}
+
+/*
+ * The banner is fixed to the bottom, so while it asks the page gets room
+ * below its content: otherwise the last thing on a page — the stock
+ * checkout's Next button, a footer link — sits under the banner with
+ * nowhere to scroll. Roughly the banner's height; after a choice consent.js
+ * removes the class and the room goes with it. Outside the components layer
+ * on purpose: the stock checkout also loads Magento's unlayered styles-m.css,
+ * whose body { padding: 0 } would beat a layered rule.
+ */
+:root.zero-consent-ask body {
+    padding-bottom: 18rem;
+}
+
+@media (min-width: 640px) {
+    :root.zero-consent-ask body {
+        padding-bottom: 14rem;
+    }
 }
