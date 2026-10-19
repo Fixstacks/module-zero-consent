@@ -19,7 +19,7 @@ if (!$consent->hasChoices()) {
 $privacyUrl = $consent->privacyUrl();
 $labels = ['analytics' => __('Analytics'), 'marketing' => __('Marketing')];
 ?>
-<section id="zero-consent" class="zero-consent fixed inset-x-0 bottom-0 z-50 p-4 sm:p-6" hidden
+<section id="zero-consent" class="zero-consent fixed inset-x-0 bottom-0 z-50 p-4 sm:p-6"
          role="region" aria-label="<?= $escaper->escapeHtmlAttr(__('Cookie consent')) ?>" data-zero-consent>
     <div class="mx-auto max-w-3xl border border-base-300 bg-base-100 text-base-content shadow-xl p-5 flex flex-col gap-4">
         <div class="flex flex-col gap-1">

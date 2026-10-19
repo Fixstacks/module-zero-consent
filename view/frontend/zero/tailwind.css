@@ -1,2 +1,19 @@
 /* Built into the Zero theme's CSS while Zero_Consent is enabled. */
 @source "../templates/**/*.phtml";
+
+@layer components {
+    /*
+     * The banner is in the first paint when the store asks and the visitor
+     * hasn't chosen: consent.js (in the head, before the body is parsed) puts
+     * zero-consent-ask on <html> in that case, so no repaint after load, and
+     * a visitor who has chosen never sees it flash. After a choice the script
+     * sets `hidden`, which wins over this.
+     */
+    .zero-consent {
+        display: none;
+    }
+
+    :root.zero-consent-ask .zero-consent {
+        display: block;
+    }
+}

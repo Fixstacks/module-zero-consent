@@ -6,7 +6,10 @@
  * #zero-consent-settings. window.zeroConsent.get() → { analytics, marketing,
  * decided, gpc }: the banner's choice (localStorage); without one, off while
  * the store asks for consent; GPC turns marketing off unless the visitor
- * turned it on. A choice dispatches `zero:consent`. Loaded before trackers.
+ * turned it on. A choice dispatches `zero:consent`. Loaded in the head, not
+ * deferred: before the body is parsed it marks <html> with zero-consent-ask
+ * when the banner is due, which the CSS shows in the first paint; the banner
+ * itself is wired once the DOM is in. Before trackers.
  */
 (function () {
     'use strict';
@@ -39,12 +42,18 @@
         return { analytics: !!on.analytics, marketing: marketing, decided: !!choice || !settings.ask, gpc: gpc };
     }
 
-    var banner = document.querySelector('[data-zero-consent]');
+    var ASK = 'zero-consent-ask';
+    var banner = null;
+
+    if (settings.ask && !choice) {
+        document.documentElement.classList.add(ASK);
+    }
 
     function show(customise) {
         if (!banner) {
             return;
         }
+        document.documentElement.classList.add(ASK);
         var current = get();
         banner.querySelectorAll('[data-zero-consent-option]').forEach(function (box) {
             box.checked = !!current[box.getAttribute('data-zero-consent-option')];
@@ -67,7 +76,14 @@
 
     window.zeroConsent = { get: get, open: function () { show(true); } };
 
-    if (banner) {
+    function wire() {
+        banner = document.querySelector('[data-zero-consent]');
+        if (!banner) {
+            return;
+        }
+        if (settings.ask && !choice) {
+            show(false);
+        }
         banner.addEventListener('click', function (event) {
             var button = event.target.closest('[data-zero-consent-action]');
             if (!button) {
@@ -97,14 +113,9 @@
         }
     });
 
-    function start() {
-        if (settings.ask && !choice) {
-            show(false);
-        }
-    }
     if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', start);
+        document.addEventListener('DOMContentLoaded', wire);
     } else {
-        start();
+        wire();
     }
 })();

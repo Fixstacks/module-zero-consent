@@ -12,6 +12,11 @@
                 <do_not_sell>0</do_not_sell>
                 <privacy_url/>
             </general>
+            <privacy>
+                <enabled>0</enabled>
+                <allow_delete>1</allow_delete>
+                <anonymize_orders>1</anonymize_orders>
+            </privacy>
         </zero_consent>
     </default>
 </config>

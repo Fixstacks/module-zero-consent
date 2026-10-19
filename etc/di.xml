@@ -1,0 +1,183 @@
+<?xml version="1.0"?>
+<!--
+    Copyright © 2026 Roman Pasichnyk
+    SPDX-License-Identifier: OSL-3.0 OR AFL-3.0
+
+    My Account > Privacy: the personal data the store keeps, section by
+    section. Magento's own (account, orders, newsletter, reviews, wish list
+    and carts), then Zero's modules' tables; a table whose module isn't
+    installed is skipped. Another module adds its section here the same way.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Zero\Consent\Model\Privacy\Sections">
+        <arguments>
+            <argument name="sections" xsi:type="array">
+                <item name="account" xsi:type="object">Zero\Consent\Model\Privacy\Section\Account</item>
+                <item name="orders" xsi:type="object">Zero\Consent\Model\Privacy\Section\Orders</item>
+                <item name="newsletter" xsi:type="object">Zero\Consent\Model\Privacy\Section\Newsletter</item>
+                <item name="reviews" xsi:type="object">Zero\Consent\Model\Privacy\Section\Reviews</item>
+                <item name="wishlist_and_carts" xsi:type="object">Zero\Consent\Model\Privacy\Section\Wishlist</item>
+                <item name="stock_alerts" xsi:type="object">Zero\Consent\Model\Privacy\Section\StockAlerts</item>
+                <item name="returns" xsi:type="object">Zero\Consent\Model\Privacy\Section\Returns</item>
+                <item name="quote_requests" xsi:type="object">Zero\Consent\Model\Privacy\Section\QuoteRequests</item>
+                <item name="reward_points" xsi:type="object">Zero\Consent\Model\Privacy\Section\RewardPoints</item>
+                <item name="requisition_lists" xsi:type="object">Zero\Consent\Model\Privacy\Section\RequisitionLists</item>
+                <item name="social_login" xsi:type="object">Zero\Consent\Model\Privacy\Section\SocialLogin</item>
+                <item name="blog_comments" xsi:type="object">Zero\Consent\Model\Privacy\Section\BlogComments</item>
+                <item name="gift_cards_received" xsi:type="object">Zero\Consent\Model\Privacy\Section\GiftCards</item>
+                <item name="emails" xsi:type="object">Zero\Consent\Model\Privacy\Section\Emails</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <virtualType name="Zero\Consent\Model\Privacy\Section\StockAlerts" type="Zero\Consent\Model\Privacy\Section\Table">
+        <arguments>
+            <argument name="table" xsi:type="string">zero_stock_alert</argument>
+            <argument name="columns" xsi:type="array">
+                <item name="email" xsi:type="string">email</item>
+                <item name="product_id" xsi:type="string">product_id</item>
+                <item name="status" xsi:type="string">status</item>
+                <item name="created_at" xsi:type="string">created_at</item>
+            </argument>
+            <argument name="customerColumn" xsi:type="string">customer_id</argument>
+            <argument name="emailColumn" xsi:type="string">email</argument>
+        </arguments>
+    </virtualType>
+    <!-- Returns stay for the accounts, without the customer's name and email. -->
+    <virtualType name="Zero\Consent\Model\Privacy\Section\Returns" type="Zero\Consent\Model\Privacy\Section\Table">
+        <arguments>
+            <argument name="table" xsi:type="string">zero_return</argument>
+            <argument name="columns" xsi:type="array">
+                <item name="order" xsi:type="string">order_increment_id</item>
+                <item name="name" xsi:type="string">customer_name</item>
+                <item name="email" xsi:type="string">customer_email</item>
+                <item name="status" xsi:type="string">status</item>
+                <item name="resolution" xsi:type="string">resolution</item>
+                <item name="comment" xsi:type="string">comment</item>
+                <item name="created_at" xsi:type="string">created_at</item>
+            </argument>
+            <argument name="customerColumn" xsi:type="string">customer_id</argument>
+            <argument name="emailColumn" xsi:type="string">customer_email</argument>
+            <argument name="erase" xsi:type="const">Zero\Consent\Model\Privacy\Section\Table::ANONYMIZE</argument>
+            <argument name="anonymize" xsi:type="array">
+                <item name="customer_id" xsi:type="null"/>
+                <item name="customer_name" xsi:type="string">Anonymous</item>
+                <item name="customer_email" xsi:type="string"></item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Zero\Consent\Model\Privacy\Section\QuoteRequests" type="Zero\Consent\Model\Privacy\Section\Table">
+        <arguments>
+            <argument name="table" xsi:type="string">zero_quote_request</argument>
+            <argument name="columns" xsi:type="array">
+                <item name="name" xsi:type="string">name</item>
+                <item name="email" xsi:type="string">email</item>
+                <item name="phone" xsi:type="string">phone</item>
+                <item name="company" xsi:type="string">company</item>
+                <item name="comment" xsi:type="string">comment</item>
+                <item name="status" xsi:type="string">status</item>
+                <item name="created_at" xsi:type="string">created_at</item>
+            </argument>
+            <argument name="customerColumn" xsi:type="string">customer_id</argument>
+            <argument name="emailColumn" xsi:type="string">email</argument>
+            <argument name="erase" xsi:type="const">Zero\Consent\Model\Privacy\Section\Table::ANONYMIZE</argument>
+            <argument name="anonymize" xsi:type="array">
+                <item name="customer_id" xsi:type="null"/>
+                <item name="name" xsi:type="string">Anonymous</item>
+                <item name="email" xsi:type="string"></item>
+                <item name="phone" xsi:type="null"/>
+                <item name="company" xsi:type="null"/>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Deleted with the account (foreign key); listed in the download. -->
+    <virtualType name="Zero\Consent\Model\Privacy\Section\RewardPoints" type="Zero\Consent\Model\Privacy\Section\Table">
+        <arguments>
+            <argument name="table" xsi:type="string">zero_reward_transaction</argument>
+            <argument name="columns" xsi:type="array">
+                <item name="points" xsi:type="string">points</item>
+                <item name="action" xsi:type="string">action</item>
+                <item name="order" xsi:type="string">order_increment_id</item>
+                <item name="comment" xsi:type="string">comment</item>
+                <item name="created_at" xsi:type="string">created_at</item>
+            </argument>
+            <argument name="customerColumn" xsi:type="string">customer_id</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Zero\Consent\Model\Privacy\Section\RequisitionLists" type="Zero\Consent\Model\Privacy\Section\Table">
+        <arguments>
+            <argument name="table" xsi:type="string">zero_requisition_list</argument>
+            <argument name="columns" xsi:type="array">
+                <item name="name" xsi:type="string">name</item>
+                <item name="description" xsi:type="string">description</item>
+                <item name="created_at" xsi:type="string">created_at</item>
+            </argument>
+            <argument name="customerColumn" xsi:type="string">customer_id</argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="Zero\Consent\Model\Privacy\Section\SocialLogin" type="Zero\Consent\Model\Privacy\Section\Table">
+        <arguments>
+            <argument name="table" xsi:type="string">zero_social_login_identity</argument>
+            <argument name="columns" xsi:type="array">
+                <item name="provider" xsi:type="string">provider</item>
+                <item name="email" xsi:type="string">email</item>
+                <item name="created_at" xsi:type="string">created_at</item>
+                <item name="last_login_at" xsi:type="string">last_login_at</item>
+            </argument>
+            <argument name="customerColumn" xsi:type="string">customer_id</argument>
+        </arguments>
+    </virtualType>
+    <!-- Comments stay under the post, without the customer's name and email. -->
+    <virtualType name="Zero\Consent\Model\Privacy\Section\BlogComments" type="Zero\Consent\Model\Privacy\Section\Table">
+        <arguments>
+            <argument name="table" xsi:type="string">zero_blog_comment</argument>
+            <argument name="columns" xsi:type="array">
+                <item name="post_id" xsi:type="string">post_id</item>
+                <item name="name" xsi:type="string">author_name</item>
+                <item name="email" xsi:type="string">author_email</item>
+                <item name="content" xsi:type="string">content</item>
+                <item name="created_at" xsi:type="string">created_at</item>
+            </argument>
+            <argument name="customerColumn" xsi:type="string">customer_id</argument>
+            <argument name="emailColumn" xsi:type="string">author_email</argument>
+            <argument name="erase" xsi:type="const">Zero\Consent\Model\Privacy\Section\Table::ANONYMIZE</argument>
+            <argument name="anonymize" xsi:type="array">
+                <item name="customer_id" xsi:type="null"/>
+                <item name="author_name" xsi:type="string">Anonymous</item>
+                <item name="author_email" xsi:type="string"></item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- A gift card sent to the customer keeps its balance; the recipient's name and email go. -->
+    <virtualType name="Zero\Consent\Model\Privacy\Section\GiftCards" type="Zero\Consent\Model\Privacy\Section\Table">
+        <arguments>
+            <argument name="table" xsi:type="string">zero_giftcard</argument>
+            <argument name="columns" xsi:type="array">
+                <item name="from" xsi:type="string">sender_name</item>
+                <item name="name" xsi:type="string">recipient_name</item>
+                <item name="email" xsi:type="string">recipient_email</item>
+                <item name="message" xsi:type="string">message</item>
+                <item name="sent_at" xsi:type="string">sent_at</item>
+            </argument>
+            <argument name="emailColumn" xsi:type="string">recipient_email</argument>
+            <argument name="erase" xsi:type="const">Zero\Consent\Model\Privacy\Section\Table::ANONYMIZE</argument>
+            <argument name="anonymize" xsi:type="array">
+                <item name="recipient_name" xsi:type="null"/>
+                <item name="recipient_email" xsi:type="null"/>
+            </argument>
+        </arguments>
+    </virtualType>
+    <!-- Zero_Mail's log of emails sent to the customer: the subjects in the download, deleted with the account. -->
+    <virtualType name="Zero\Consent\Model\Privacy\Section\Emails" type="Zero\Consent\Model\Privacy\Section\Table">
+        <arguments>
+            <argument name="table" xsi:type="string">zero_mail_log</argument>
+            <argument name="columns" xsi:type="array">
+                <item name="subject" xsi:type="string">subject</item>
+                <item name="recipient" xsi:type="string">recipient</item>
+                <item name="created_at" xsi:type="string">created_at</item>
+            </argument>
+            <argument name="emailColumn" xsi:type="string">recipients</argument>
+            <argument name="emailPattern" xsi:type="string">"email":"%s"</argument>
+        </arguments>
+    </virtualType>
+</config>

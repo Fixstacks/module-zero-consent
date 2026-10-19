@@ -32,6 +32,31 @@
                     <comment>Linked from the banner, e.g. /privacy-policy-cookie-restriction-mode. Empty: no link.</comment>
                 </field>
             </group>
+            <group id="privacy" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Personal Data (GDPR)</label>
+                <comment>My Account > Privacy: the customer downloads everything the store keeps about them (GDPR art. 15 and 20) and can delete their account (art. 17).</comment>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Show My Account > Privacy</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="allow_delete" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Customers Can Delete Their Account</label>
+                    <comment>After confirming with their password. No: the page offers the download only, and asks them to write to the store.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="anonymize_orders" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+                    <label>Anonymize the Orders of a Deleted Account</label>
+                    <comment>Yes: names, emails, addresses and phone numbers are taken off the customer's orders, invoices, shipments and credit memos; amounts, items, country and tax stay for the accounts. No: the orders keep them, where the law asks the store to keep its invoices as issued (art. 17(3)(b)); they become guest orders.</comment>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enabled">1</field>
+                        <field id="allow_delete">1</field>
+                    </depends>
+                </field>
+            </group>
         </section>
     </system>
 </config>

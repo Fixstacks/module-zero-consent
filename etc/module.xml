@@ -7,6 +7,8 @@
     <module name="Zero_Consent">
         <sequence>
             <module name="Zero_Core"/>
+            <module name="Magento_Customer"/>
+            <module name="Magento_Sales"/>
         </sequence>
     </module>
 </config>
