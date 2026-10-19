@@ -2,7 +2,7 @@
     "name": "fixstacks/module-zero-consent",
     "description": "Zero for Magento Open Source: a cookie consent banner and settings for every tracker (GDPR), Global Privacy Control and \"Do Not Sell\" (CCPA).",
     "type": "magento2-module",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "license": [
         "OSL-3.0",
         "AFL-3.0"
