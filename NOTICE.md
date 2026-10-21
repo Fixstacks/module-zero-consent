@@ -1,4 +1,4 @@
-# fixstacks/module-zero-consent — licensing
+# zerofront/module-zero-consent — licensing
 
 Copyright © 2026 Roman Pasichnyk.
 
